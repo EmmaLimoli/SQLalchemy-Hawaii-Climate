@@ -1,2 +1,2 @@
-# sqlalchemy-challnege
+# sqlalchemy-challenge
 sqlalchemy homework
