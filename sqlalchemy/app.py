@@ -45,26 +45,43 @@ def welcome():
 #precipitation, convert query results to a dict using date as the key and prcp as value
 @app.route("/api/v1.0/precipitation")
 def precipitation():
+    session = Session(engine)
+    date_prcp = session.query(Measurement.date, Measurement.prcp).\
+    filter(Measurement.date > '2016-08-22').\
+    filter(Measurement.prcp).\
+    order_by(Measurement.date).all()
+    session.close()
+
+    all_prcp = []
+    for date, prcp in date_prcp:
+        prcp_dict = {}
+        prcp_dict["date"] = date
+        prcp_dict["prcp"] = prcp
+        all_prcp.append(prcp_dict)
+    return jsonify(all_prcp)
+
+#open a session.bind, run the same query, taking in the JN and putting it into python
+#it will create a list of tuples, use the first query, 
 
     #return json rep of jsonify
 
 #stations, return jsonify list of stations from dataset
 @app.route("/api/v1.0/stations")
 def stations():
+#calling the entire dateset of the station, calling on the session open and close, process data send it to the web
+# #tobs, query dates/tobs of most active station for last year of data
+# @app.route("/api/v1.0/tobs")
+# def tobs():
 
-#tobs, query dates/tobs of most active station for last year of data
-@app.route("/api/v1.0/tobs")
-def tobs():
+#     #return JSON list of tobs for prev year
 
-    #return JSON list of tobs for prev year
+# #return JSON list of min, avg, max temp for given start-end range
+# #given start calc TMIN, TAVG, TMAX for dates greater than/equal to start date
+# @app.route("/api/v1.0/<start>")
+# def 
 
-#return JSON list of min, avg, max temp for given start-end range
-#given start calc TMIN, TAVG, TMAX for dates greater than/equal to start date
-@app.route("/api/v1.0/<start>")
-def 
-
-#given start/end date, calc TMIN, TAVG, TMAX for dates between start and end dates
-@app.route("/api/v1.0/<start>/<end>")
+# #given start/end date, calc TMIN, TAVG, TMAX for dates between start and end dates
+# @app.route("/api/v1.0/<start>/<end>")
 
 #app.run debug to run 
 if __name__=='__main__':
