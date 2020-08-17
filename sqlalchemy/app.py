@@ -43,6 +43,7 @@ def welcome():
         f"/api/v1.0/yyyy-mm-dd/yyyy-mm-dd<br/>"
     )
 #precipitation, convert query results to a dict using date as the key and prcp as value
+#use session, remember to close before for loop
 @app.route("/api/v1.0/precipitation")
 def precipitation():
     session = Session(engine)
@@ -60,12 +61,8 @@ def precipitation():
         all_prcp.append(prcp_dict)
     return jsonify(all_prcp)
 
-#open a session.bind, run the same query, taking in the JN and putting it into python
-#it will create a list of tuples, use the first query, 
-
-    #return json rep of jsonify
-
 #stations, return jsonify list of stations from dataset
+#use session, remember to close before for loop
 @app.route("/api/v1.0/stations")
 def stations():
     session = Session(engine)
@@ -78,9 +75,8 @@ def stations():
        stations[st] = name
     return jsonify(stations)
 
-#calling the entire dateset of the station, calling on the session open and close, process data send it to the web
-
-# #tobs, query dates/tobs of most active station for last year of data
+#tobs, query dates/tobs of most active station for last year of data
+#use session, remember to close before for loop
 @app.route("/api/v1.0/tobs")
 def tobs():
     session = Session(engine)
@@ -98,11 +94,9 @@ def tobs():
         all_tobs.append(tobs_dict)
     return jsonify(all_tobs)
 
-
-#     #return JSON list of tobs for prev year
-
-# #return JSON list of min, avg, max temp for given start-end range
-# #given start calc TMIN, TAVG, TMAX for dates greater than/equal to start date
+#return JSON list of min, avg, max temp for given start-end range
+#given start calc TMIN, TAVG, TMAX for dates greater than/equal to start date
+#use session, remember to close before for loop
 @app.route("/api/v1.0/<start>")
 def start(start):
     """TMIN, TAVG, TMAX per date from the starting date.
@@ -110,7 +104,6 @@ def start(start):
     Return: TMIN, TAVE, TMAX for each date"""
 
     session = Session(engine)
-    # start_date = dt.datetime.strptime(start, '%Y-%m-%d')
     tobs_breakdown = session.query(Measurement.date,\
     func.min(Measurement.tobs),\
     func.avg(Measurement.tobs),\
@@ -132,20 +125,26 @@ def start(start):
 
 #given start/end date, calc TMIN, TAVG, TMAX for dates between start and end dates
 #dates greater than and equal to the start date
+#use session, remember to close before for loop
 @app.route("/api/v1.0/<start>/<end>")
-def start_end(start_end):
+def end(start, end):
+    """TMIN, TAVG, TMAX per date from the starting date to the end date.
+    Arguments: 
+            start (string): date format is %Y-%m-%d
+            end (string): date format is %Y-%m-%d
+    Return: TMIN, TAVE, TMAX for each date"""
+
     session = Session(engine)
-    sel = [Measurement.station,
-    func.max(Measurement.tobs),
-    func.avg(Measurement.tobs),
-    func.min(Measurement.tobs)]
-    tobs_breakdown = session.query(*sel).\
-    group_by(Measurement.station).\
-    order_by(func.count(Measurement.station).desc()).all()
+    tobs_breakdown = session.query(Measurement.date,\
+    func.min(Measurement.tobs),\
+    func.avg(Measurement.tobs),\
+    func.max(Measurement.tobs).\
+    filter(Measurement.date >= '01-01-2010', Measurement.date <= end)).\
+    group_by(Measurement.date).all()
     session.close()
 
     tobs_end = []
-    for date, min, avg, max, in tobs_breakdown:
+    for date, min, avg, max in tobs_breakdown:
         end_dict = {}
         end_dict["date"] = date
         end_dict["min"] = min
