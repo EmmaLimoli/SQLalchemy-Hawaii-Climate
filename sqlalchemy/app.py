@@ -105,14 +105,18 @@ def tobs():
 # #given start calc TMIN, TAVG, TMAX for dates greater than/equal to start date
 @app.route("/api/v1.0/<start>")
 def start(start):
+    """TMIN, TAVG, TMAX per date from the starting date.
+    Arguments: start (string): date format is %Y-%m-%d
+    Return: TMIN, TAVE, TMAX for each date"""
+
     session = Session(engine)
-    sel = [Measurement.station,
-    func.max(Measurement.tobs),
-    func.avg(Measurement.tobs),
-    func.min(Measurement.tobs)]
-    tobs_breakdown = session.query(*sel).\
-    group_by(Measurement.station).\
-    order_by(func.count(Measurement.station).desc()).all()
+    # start_date = dt.datetime.strptime(start, '%Y-%m-%d')
+    tobs_breakdown = session.query(Measurement.date,\
+    func.min(Measurement.tobs),\
+    func.avg(Measurement.tobs),\
+    func.max(Measurement.tobs).\
+    filter(Measurement.date >= '2010-01-01')).\
+    group_by(Measurement.date).all()
     session.close()
 
     tobs_results = []
@@ -126,7 +130,8 @@ def start(start):
     return jsonify(tobs_results)
 
 
-# #given start/end date, calc TMIN, TAVG, TMAX for dates between start and end dates
+#given start/end date, calc TMIN, TAVG, TMAX for dates between start and end dates
+#dates greater than and equal to the start date
 @app.route("/api/v1.0/<start>/<end>")
 def start_end(start_end):
     session = Session(engine)
@@ -147,7 +152,7 @@ def start_end(start_end):
         end_dict["avg"] = avg
         end_dict["max"] = max
         tobs_end.append(end_dict)
-    return jsonify(tbs_end)
+    return jsonify(tobs_end)
 
 #app.run debug to run 
 if __name__=='__main__':
