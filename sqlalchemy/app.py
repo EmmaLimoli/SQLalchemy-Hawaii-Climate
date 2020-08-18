@@ -1,4 +1,3 @@
-#need to join the station/measurement tabels for some of the queries
 #flask jsonify to convert API data into json response object
 #dependencies 
 import numpy as np
@@ -21,7 +20,6 @@ Base = automap_base()
 Base.prepare(engine, reflect=True)
 
 #save references to the table
-
 Measurement = Base.classes.measurement
 
 Station = Base.classes.station
@@ -30,17 +28,16 @@ Station = Base.classes.station
 app = Flask(__name__)
 
 #Flask Routes
-
 @app.route("/")
 def welcome():
     """All available api routes."""
     return(
         f"Available Routes:<br/>"
-        f"/api/v1.0/precipitation<br/>"
-        f"/api/v1.0/stations<br/>"
-        f"/api/v1.0/tobs<br/>"
-        f"/api/v1.0/yyyy-mm-dd<br/>"
-        f"/api/v1.0/yyyy-mm-dd/yyyy-mm-dd<br/>"
+        f"List of percipitation per date: /api/v1.0/precipitation<br/>"
+        f"List of available stations: /api/v1.0/stations<br/>"
+        f"List of temperature observations per date: /api/v1.0/tobs<br/>"
+        f"List of max, min, and avg temperatures for a start date: /api/v1.0/yyyy-mm-dd<br/>"
+        f"List of max, min, and avg temperatures for a start and end date: /api/v1.0/yyyy-mm-dd/yyyy-mm-dd<br/>"
     )
 #precipitation, convert query results to a dict using date as the key and prcp as value
 #use session, remember to close before for loop
@@ -94,7 +91,7 @@ def tobs():
         all_tobs.append(tobs_dict)
     return jsonify(all_tobs)
 
-#return JSON list of min, avg, max temp for given start-end range
+#return JSON list of min, avg, max temp for given start
 #given start calc TMIN, TAVG, TMAX for dates greater than/equal to start date
 #use session, remember to close before for loop
 @app.route("/api/v1.0/<start>")
