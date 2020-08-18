@@ -43,6 +43,7 @@ def welcome():
 #use session, remember to close before for loop
 @app.route("/api/v1.0/precipitation")
 def precipitation():
+    """Previous year of precipitation"""
     session = Session(engine)
     date_prcp = session.query(Measurement.date, Measurement.prcp).\
     filter(Measurement.date > '2016-08-22').\
@@ -62,6 +63,7 @@ def precipitation():
 #use session, remember to close before for loop
 @app.route("/api/v1.0/stations")
 def stations():
+    """List of stations"""
     session = Session(engine)
    
     stations = {}
@@ -76,6 +78,7 @@ def stations():
 #use session, remember to close before for loop
 @app.route("/api/v1.0/tobs")
 def tobs():
+    """Previous year of temperature observations for top station"""
     session = Session(engine)
     last_12_months_station = session.query(Measurement.date, Measurement.tobs).\
     filter(Measurement.station == 'USC00519281').\
@@ -104,8 +107,8 @@ def start(start):
     tobs_breakdown = session.query(Measurement.date,\
     func.min(Measurement.tobs),\
     func.avg(Measurement.tobs),\
-    func.max(Measurement.tobs).\
-    filter(Measurement.date >= '2010-01-01')).\
+    func.max(Measurement.tobs)).\
+    filter(Measurement.date >= '2010-01-01').\
     group_by(Measurement.date).all()
     session.close()
 
@@ -136,7 +139,7 @@ def end(start, end):
     func.min(Measurement.tobs),\
     func.avg(Measurement.tobs),\
     func.max(Measurement.tobs).\
-    filter(Measurement.date >= '01-01-2010', Measurement.date <= end)).\
+    filter(Measurement.date >= '2010-01-01', Measurement.date <= end)).\
     group_by(Measurement.date).all()
     session.close()
 
