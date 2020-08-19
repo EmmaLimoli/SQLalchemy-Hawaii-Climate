@@ -108,7 +108,7 @@ def start(start):
     func.min(Measurement.tobs),\
     func.avg(Measurement.tobs),\
     func.max(Measurement.tobs)).\
-    filter(Measurement.date >= '2010-01-01').\
+    filter(Measurement.date >= '2015-01-31').\
     group_by(Measurement.date).all()
     session.close()
 
@@ -138,8 +138,8 @@ def end(start, end):
     tobs_breakdown = session.query(Measurement.date,\
     func.min(Measurement.tobs),\
     func.avg(Measurement.tobs),\
-    func.max(Measurement.tobs).\
-    filter(Measurement.date >= '2010-01-01', Measurement.date <= end)).\
+    func.max(Measurement.tobs)).\
+    filter(and_(Measurement.date >= '2015-01-31', Measurement.date <= '2015-02-13')).\
     group_by(Measurement.date).all()
     session.close()
 
