@@ -21,7 +21,7 @@ To create the histogram, I used bins and looked at the max/min date and tobs to 
 Once the histogram was created, I moved on to app.py. 
 
 Part Two:
-In Flask, I used jsonify to convert the API data into a json response object. I used the same dependencies in the Jupyter Notebook as well as the same set up. Once the Flask was set up, I created the routes. There were six routes in this project. There's the homepage, the precipitation, list of stations, temperature observations or TOBS, the start date page, and then start and end date page. 
+In Flask, I used jsonify to convert the API data into a json response object. I used the same dependencies in the Jupyter Notebook as well as the same set up. Once the Flask was set up, I created the routes. There were six routes in this project. There's the homepage, the precipitation, list of stations, temperature observations or TOBS, the start date, and then start and end date route. 
 
 In the homepage, you'll find the routes for each page that was built out. In the precipitation page, there's the query results that use a dict to loop through the date and precipitation. The next page is the list of stations, which prints out the stations in Hawaii. TOBS is similar to the precipitation page. I used a loop and a dict to print out the date and the TOBS. The pages that have a date such as the precipitation and TOBs analyzed the last year (08/2016-08/2017).
 
