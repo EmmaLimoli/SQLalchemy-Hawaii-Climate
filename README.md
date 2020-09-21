@@ -1,5 +1,7 @@
 The Climate Measurement Project
 
+![bar graph for PRCP](https://github.com/EmmaLimoli/sqlalchemy-challenge/blob/master/completed_images/prcp_date.png)
+
 The Goal:
 The goal for this project was to use SQLalchemy to study the climate in Hawaii and then use Flask to make the data live on a website. In this project, I analyzed the measurements of precipitation for specific stations in Hawaii. Once the data was pulled, I wanted to showcase it by using Flask to create different webpages that showed specific information.
 
