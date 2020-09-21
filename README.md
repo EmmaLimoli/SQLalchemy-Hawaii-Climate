@@ -1,11 +1,11 @@
-The Climate Measurement Project
+<h1>The Climate Measurement Project</h1>
 
 ![routes](https://github.com/EmmaLimoli/sqlalchemy-challenge/blob/master/completed_images/Screen%20Shot%202020-08-18%20at%206.54.55%20PM.png)
 
-The Goal:
+<strong>The Goal:</strong>
 The goal for this project was to use SQLalchemy to study the climate in Hawaii and then use Flask to make the data live on a website. In this project, I analyzed the measurements of precipitation for specific stations in Hawaii. Once the data was pulled, I wanted to showcase it by using Flask to create different webpages that showed specific information.
 
-How This Was Accomplished (Part One):
+<strong>How This Was Accomplished (Part One):</strong>
 The first step in this project was to import the dependencies in Jupyter Notebook. I used dependencies such as Matplotlib, Numpy, Pandas, and SQLalchemy. Once the dependencies were implemented, I created an engine to the Hawaii SQLite database. I added reflect to the existing database into the new model to reflect the tables that are in the database. Then to make sure that I had the proper data, I viewed the classes using Automap. The two classes I used were measurement and station. I also created a session between Python to the database to ensure a secure connection.
 
 Once everything was connected, I used inspector to run the columns. This helped to see the types of columns in both of the sets of data. This also helped when I needed to filter out specific data to better understand which columns names were in which dataset. 
@@ -36,10 +36,10 @@ The start date page provides the minimum, maximum, and the average of the dates 
 
 ![breakdown of routes](https://github.com/EmmaLimoli/sqlalchemy-challenge/blob/master/completed_images/Screen%20Shot%202020-08-19%20at%203.21.48%20PM.png)
 
-Conclusion:
+<strong>Conclusion:</strong>
 In conclusion, I was able to determine the station that's the most active in Hawaii, analyze the rain fall, and create a site to store the data. I also created visualizations to better understand and showcase the data. While the dates are on the older side, I can continue analyzing the data and determine if there are changes in the weather pattern in Hawaii for the future.
 
-Tools Used: Pandas, Numpy, Flask, datetime, matplotlib, SQLalchemy, SQLalchemy ORM, reflect, automap base
+<strong>Tools Used: Pandas, Numpy, Flask, datetime, matplotlib, SQLalchemy, SQLalchemy ORM, reflect, automap base</strong>
 
 
 
